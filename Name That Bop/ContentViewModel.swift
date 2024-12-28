@@ -19,7 +19,14 @@ struct ShazamMedia: Decodable {
 
 @Observable
 class ContentViewModel: NSObject {
-    var shazamMedia = ShazamMedia(title: nil, subtitle: nil, artistName: nil, albumArtURL: nil, genres: [])
+    
+    var shazamMedia = ShazamMedia(
+        title: nil,
+        subtitle: nil,
+        artistName: nil,
+        albumArtURL: nil,
+        genres: []
+    )
     var isRecording = false
     private let audioEngine = AVAudioEngine()
     private let session = SHSession()
@@ -56,16 +63,21 @@ class ContentViewModel: NSObject {
         let recordingFormat = inputNode.outputFormat(forBus: 0)
         
         let generator = SHSignatureGenerator()
-        inputNode.installTap(onBus: 0, bufferSize: 2048, format: recordingFormat) { buffer, time in
-            do {
-                try generator.append(buffer, at: time)
-                if let signature = try? generator.signature() {
-                    self.session.match(signature)
+        inputNode
+            .installTap(
+                onBus: 0,
+                bufferSize: 2048,
+                format: recordingFormat
+            ) { buffer, time in
+                do {
+                    try generator.append(buffer, at: time)
+                    if let signature = try? generator.signature() {
+                        self.session.match(signature)
+                    }
+                } catch {
+                    print("Error generating signature: \(error)")
                 }
-            } catch {
-                print("Error generating signature: \(error)")
             }
-        }
         
         do {
             try audioEngine.start()
@@ -84,6 +96,7 @@ extension ContentViewModel: SHSessionDelegate {
         print("=== Shazam Match Found ===")
         print("Title:", mediaItem.title ?? "N/A")
         print("Artist:", mediaItem.artist ?? "N/A")
+        print("Image Link", mediaItem.artworkURL ?? "N/A")
         print("Genres:", mediaItem.genres)
         
         DispatchQueue.main.async { [weak self] in

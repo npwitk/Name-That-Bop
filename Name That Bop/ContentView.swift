@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var viewModel = ContentViewModel()
     @Environment(\.colorScheme) var colorScheme
     
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -63,7 +64,7 @@ struct ContentView: View {
                     }
                     .padding(.horizontal)
                     .padding(.vertical, 20)
-                    .background(.ultraThinMaterial)
+                    .background(colorScheme == .dark ? .ultraThinMaterial : .ultraThickMaterial)
                     .clipShape(RoundedRectangle(cornerRadius: 16))
                     
                     Spacer()
