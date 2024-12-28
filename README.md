@@ -1,6 +1,6 @@
 # Name That Bop
 
-Music Identifier App built with ShazamKit and SwiftUI, enabling users to recognize and discover songs seamlessly. It displays various information such as the album cover, song name, artist name, and genre of the song.
+Music Identifier App built with ShazamKit and SwiftUI, enabling users to recognize and discover songs seamlessly. It displays various information such as the album cover, song name, artist name, and genre of the song. 🎵🎼🎶
 
 
 ## Screenshots
